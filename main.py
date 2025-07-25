@@ -35,7 +35,7 @@ def process_commands(args, expenses):
     if args.command == "list":
         print("ID Date Description Amount")
         for expense in expenses:
-            print(f"{expense.id} {expense.date} {expense.description} {expense.amount:.2f}")
+            print(f"{expense.id} {expense.date} {expense.description} ${expense.amount:.2f}")
 
     if args.command == "summary":
         # If the --month argument was used
