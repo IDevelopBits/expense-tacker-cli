@@ -1,5 +1,6 @@
 import argparse
 import json
+import calendar
 
 from expense import Expense
 
@@ -37,7 +38,14 @@ def process_commands(args, expenses):
             print(f"{expense.id} {expense.date} {expense.description} {expense.amount:.2f}")
 
     if args.command == "summary":
-        total = sum([expense.amount for expense in expenses])
+        if args.month:  # If the --month argument was used
+            month_name = calendar.month_name[args.month]
+            monthly_expenses = [e for e in expenses if e.date.month == args.month]
+            total = sum(e.amount for e in monthly_expenses)
+            print(f"Total for {month_name}: ${total:.2f}")
+        else:
+            total = sum(e.amount for e in expenses)
+            print(f"Total expenses: ${total:.2f}")
 
 def save_expenses(expenses, filepath):
     with open(filepath, "w") as f:
