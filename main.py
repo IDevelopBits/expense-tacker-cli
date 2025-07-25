@@ -47,6 +47,15 @@ def process_commands(args, expenses):
             total = sum(e.amount for e in expenses)
             print(f"Total expenses: ${total:.2f}")
 
+    if args.command == "delete":
+        original_len = len(expenses)
+        expenses[:] = [e for e in expenses if e.id != args.id]  # Remove by ID
+
+        if len(expenses) < original_len:
+            print(f"Deleted expense with ID {args.id}")
+        else:
+            print(f"No expense found with ID {args.id}")
+
 def save_expenses(expenses, filepath):
     with open(filepath, "w") as f:
         json.dump([e.to_dict() for e in expenses], f, indent=2)
