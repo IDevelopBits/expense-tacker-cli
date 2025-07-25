@@ -53,7 +53,7 @@ def process_commands(args, expenses):
         # Remove by ID
         expenses[:] = [e for e in expenses if e.id != args.id]
 
-        # We know it is deleted if the current list length is less than the orginial one
+        # We know it is deleted if the current list length is less than the original one
         if len(expenses) < original_len:
             print(f"Deleted expense with ID {args.id}")
         else:
