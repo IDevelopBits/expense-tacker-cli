@@ -38,7 +38,8 @@ def process_commands(args, expenses):
             print(f"{expense.id} {expense.date} {expense.description} {expense.amount:.2f}")
 
     if args.command == "summary":
-        if args.month:  # If the --month argument was used
+        # If the --month argument was used
+        if args.month:
             month_name = calendar.month_name[args.month]
             monthly_expenses = [e for e in expenses if e.date.month == args.month]
             total = sum(e.amount for e in monthly_expenses)
@@ -49,8 +50,10 @@ def process_commands(args, expenses):
 
     if args.command == "delete":
         original_len = len(expenses)
-        expenses[:] = [e for e in expenses if e.id != args.id]  # Remove by ID
+        # Remove by ID
+        expenses[:] = [e for e in expenses if e.id != args.id]
 
+        # We know it is deleted if the current list length is less than the orginial one
         if len(expenses) < original_len:
             print(f"Deleted expense with ID {args.id}")
         else:
