@@ -55,9 +55,9 @@ def process_commands(args, expenses):
 
         # We know it is deleted if the current list length is less than the original one
         if len(expenses) < original_len:
-            print(f"Deleted expense with ID {args.id}")
+            print(f"Expense deleted successfully")
         else:
-            print(f"No expense found with ID {args.id}")
+            print(f"Expense deleted unsuccessfully")
 
 def save_expenses(expenses, filepath):
     with open(filepath, "w") as f:
