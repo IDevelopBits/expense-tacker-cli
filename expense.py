@@ -29,7 +29,7 @@ class Expense:
         print(f'# ID {self.id} {self.date} {self.description} {self.amount}')
 
     def to_dict(self):
-        return {"ID": self.id, "Date": self.date.isoformat(), "description": self.description, "amount": self.amount}
+        return {"id": self.id, "date": self.date.isoformat(), "description": self.description, "amount": self.amount}
 
     # Saves object to json
     def save(self, filepath):
@@ -40,6 +40,6 @@ class Expense:
     @classmethod
     def from_dict(cls, data):
         obj = cls(data["description"], data["amount"])
-        obj.id = data["ID"]
-        obj.date = date.fromisoformat(data["Date"])
+        obj.id = data["id"]
+        obj.date = date.fromisoformat(data["date"])
         return obj

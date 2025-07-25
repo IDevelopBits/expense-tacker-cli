@@ -1,4 +1,6 @@
 import argparse
+import json
+
 from expense import Expense
 
 # Parser for all the expense tracker commands
@@ -28,19 +30,37 @@ def process_commands(args, expenses):
         expense = Expense(args.description, args.amount)
         print(f"Expense added successfully (ID: {expense.id})")
         expenses.append(expense)
-        expense.save("expenses.json")
+
     if args.command == "list":
         print("ID Date Description Amount")
+        for expense in expenses:
+            print(f"{expense.id} {expense.date} {expense.description} {expense.amount:.2f}")
+
     if args.command == "summary":
         total = sum([expense.amount for expense in expenses])
 
+def save_expenses(expenses, filepath):
+    with open(filepath, "w") as f:
+        json.dump([e.to_dict() for e in expenses], f, indent=2)
+
+def load_expenses(filepath):
+    with open(filepath, "r") as f:
+        try:
+            data = json.load(f)
+        except json.decoder.JSONDecodeError:
+            return []
+    expenses = [Expense.from_dict(d) for d in data]
+    Expense._id_counter = max((e.id for e in expenses), default=0) + 1
+    return expenses
+
 def main():
     # Stores a list of expenses
-    expenses = []
+    expenses = load_expenses("expenses.json")
 
     parser = create_parser()
     args = parser.parse_args()
     process_commands(args, expenses)
+    save_expenses(expenses, "expenses.json")
 
 if __name__ == '__main__':
     main()
